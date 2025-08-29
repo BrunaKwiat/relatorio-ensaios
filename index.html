@@ -296,27 +296,45 @@
           </fieldset>
 
           <!-- 8. Anexos -->
-          <fieldset>
-            <legend>8. Anexos</legend>
-            <div class="grid">
-              <label for="anexosCertificados">Certificados de calibração (URLs; separe por “;”)</label>
-              <input id="anexosCertificados" name="anexosCertificados" placeholder="https://...; https://..." inputmode="url" />
+         <!-- 8. Anexos -->
+<fieldset>
+  <legend>8. Anexos</legend>
+  <div class="grid">
+    <label for="anexosCertificados">Certificados de calibração (PDFs; selecione um ou mais arquivos)</label>
+    <input id="anexosCertificados" name="anexosCertificados" type="file" accept="application/pdf" multiple />
 
-              <label for="anexosPlanilhas">Planilhas/Gráficos (URLs; separe por “;”)</label>
-              <input id="anexosPlanilhas" name="anexosPlanilhas" placeholder="https://...; https://..." inputmode="url" />
+    <label for="anexosPlanilhas">Planilhas/Gráficos (PDFs)</label>
+    <input id="anexosPlanilhas" name="anexosPlanilhas" type="file" accept="application/pdf" multiple />
 
-              <label for="anexosFotos">Fotos das amostras (URLs; separe por “;”)</label>
-              <input id="anexosFotos" name="anexosFotos" placeholder="https://...; https://..." inputmode="url" />
-            </div>
-          </fieldset>
+    <label for="anexosFotos">Fotos das amostras (imagens)</label>
+    <input id="anexosFotos" name="anexosFotos" type="file" accept="image/*" multiple />
+  </div>
+</fieldset>
+
 
           <!-- 9. Imagens -->
           <fieldset>
-            <legend>9. Imagens</legend>
-            <div id="imagens"></div>
-            <button type="button" class="btn btn--secondary" id="btnAddImagem">+ Adicionar imagem</button>
-            <p class="hint">Cole uma URL de imagem ou selecione um arquivo. Inclua legenda e texto alternativo.</p>
-          </fieldset>
+  <legend>9. Imagens</legend>
+  <div id="imagens">
+    <div class="imagem-item">
+      <label>URL ou Arquivo</label>
+      <input type="url" placeholder="Cole a URL da imagem" />
+      <input type="file" accept="image/*" />
+
+      <label>Legenda</label>
+      <input type="text" placeholder="Ex.: Foto da amostra após ensaio" />
+
+      <label>Texto alternativo (acessibilidade)</label>
+      <input type="text" placeholder="Ex.: Tubo PVC após ensaio de pressão" />
+
+      <label>Descrição / Observações</label>
+      <textarea placeholder="Digite aqui um texto descritivo sobre a imagem..." rows="3"></textarea>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn--secondary" id="btnAddImagem">+ Adicionar imagem</button>
+  <p class="hint">Cole uma URL de imagem ou selecione um arquivo. Inclua legenda, texto alternativo e descrição.</p>
+</fieldset>
 
           <!-- 10. Tabelas adicionais -->
           <!--<fieldset>
