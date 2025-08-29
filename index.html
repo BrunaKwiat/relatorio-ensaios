@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shiva Plásticos — Relatório de Ensaio PVC-U</title>
+
+  <!-- PDF libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="style.css" />
+  <meta name="color-scheme" content="light only">
+  <meta name="theme-color" content="#0E3554">
+</head>
+
+<body class="locked">
+  <a class="sr-only sr-only-focusable" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- TOPBAR -->
+  <header class="topbar" role="banner">
+    <div class="container">
+      <div class="brand" aria-label="Shiva Plásticos">
+        <img src="Shiva.png" alt="Shiva Plásticos">
+        <div class="brand-text">
+          <span class="brand-title">Relatórios de Ensaio</span>
+          <span class="brand-sub">PVC-U • Conexões</span>
+        </div>
+      </div>
+
+      <nav class="actions" role="group" aria-label="Ações do relatório">
+        <div class="btn-group">
+          <button id="btnToggleAside" class="btn btn--ghost" type="button" title="Mostrar/ocultar lista" aria-controls="listaRelatorios" aria-expanded="true">☰ Lista</button>
+        </div>
+
+        <div class="btn-group">
+          <button id="btnNovo" class="btn btn--primary" type="button" title="Criar relatório em branco">Novo</button>
+          <button id="btnSalvar" class="btn btn--primary" type="button" title="Salvar no navegador">Salvar</button>
+        </div>
+
+        <div class="btn-group">
+          <button id="btnExportar" class="btn btn--secondary" type="button" title="Exportar este relatório em JSON">Exportar JSON</button>
+          <button id="btnPDF" class="btn btn--secondary" type="button" title="Gerar PDF com layout de texto">PDF (texto)</button>
+          <button id="btnPDFhtml" class="btn btn--secondary" type="button" title="Gerar PDF a partir do layout da página">PDF (layout)</button>
+
+          <label class="btn btn--secondary btn--import" for="inputImportar" title="Importar um arquivo JSON">
+            Importar JSON
+            <input type="file" id="inputImportar" accept="application/json" />
+          </label>
+
+          <button id="btnImprimir" class="btn btn--secondary" type="button" title="Impressão do layout">Imprimir</button>
+        </div>
+
+        <div class="userbox" aria-live="polite">
+          <span id="whoami" class="whoami" aria-atomic="true">—</span>
+          <button id="btnUsers" type="button" class="btn btn--secondary" title="Gerenciar usuários">Usuários</button>
+          <button id="btnLogout" type="button" class="btn btn--danger" title="Sair">Sair</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- LOGIN -->
+  <section id="authScreen" class="auth-screen" aria-label="Acesso restrito">
+    <form id="loginForm" class="auth-card" autocomplete="on">
+      <h1>Acesso ao sistema</h1>
+      <p class="hint">Área restrita. Faça login para continuar.</p>
+
+      <label for="loginEmail">E-mail</label>
+      <input type="email" id="loginEmail" required placeholder="usuario@empresa.com" autocomplete="username">
+
+      <label for="loginPassword">Senha</label>
+      <input type="password" id="loginPassword" required placeholder="********" autocomplete="current-password">
+
+      <div class="inline" style="justify-content: space-between; width:100%">
+        <button type="submit" class="btn btn--primary">Entrar</button>
+        <button type="button" id="btnExportUsers" class="btn btn--secondary">Exportar usuários</button>
+        <label class="btn btn--secondary btn--import" for="inputImportUsers">Importar usuários
+          <input type="file" id="inputImportUsers" accept="application/json">
+        </label>
+      </div>
+
+      <p class="small">Dica: admin padrão <code>admin@local</code> / <code>admin123</code></p>
+    </form>
+  </section>
+
+  <!-- DIALOG USUÁRIOS -->
+  <dialog id="dlgUsers" class="dlg" aria-labelledby="dlgUsersTitle">
+    <form method="dialog" class="dlg-card" id="userForm">
+      <header class="dlg-head">
+        <h2 id="dlgUsersTitle">Usuários</h2>
+        <button value="cancel" class="btn btn--secondary">Fechar</button>
+      </header>
+
+      <div class="grid">
+        <label for="uNome">Nome</label>
+        <input id="uNome" placeholder="Nome completo" autocomplete="name">
+
+        <label for="uEmail">E-mail</label>
+        <input id="uEmail" type="email" placeholder="usuario@empresa.com" autocomplete="off">
+
+        <label for="uSenha">Senha</label>
+        <input id="uSenha" type="password" placeholder="(preencha p/ definir)" autocomplete="new-password">
+
+        <label for="uRole">Papel</label>
+        <select id="uRole">
+          <option value="admin">admin</option>
+          <option value="editor" selected>editor</option>
+          <option value="viewer">viewer</option>
+        </select>
+      </div>
+
+      <div class="inline" style="gap:8px;margin:10px 0;">
+        <button type="button" id="btnUserSave" class="btn btn--primary">Salvar/Atualizar</button>
+        <button type="button" id="btnUserNew" class="btn btn--secondary">Novo</button>
+        <button type="button" id="btnUserDelete" class="btn btn--danger">Excluir</button>
+      </div>
+
+      <div class="tabela-wrap">
+        <table class="tabela" id="tblUsers">
+          <caption class="sr-only">Tabela de usuários cadastrados</caption>
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">E-mail</th>
+              <th scope="col">Papel</th>
+              <th scope="col">Atualizado</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- APP -->
+  <main class="layout" id="app" role="main">
+    <div class="container">
+      <div id="ariaLive" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+      <!-- Sidebar -->
+      <aside class="lista-relatorios" aria-label="Relatórios salvos">
+        <div class="aside-head">
+          <h2>Relatórios</h2>
+          <input id="filtroLista" placeholder="Buscar..." type="search" aria-label="Buscar em relatórios salvos" />
+        </div>
+        <ul id="listaRelatorios" aria-live="polite"></ul>
+      </aside>
+
+      <!-- Conteúdo -->
+      <section class="conteudo" id="conteudo" tabindex="-1">
+        <form id="formRelatorio" novalidate>
+          <!-- 1. Identificação -->
+          <fieldset>
+            <legend>1. Identificação do Relatório</legend>
+            <div class="grid">
+              <label for="numeroRelatorio">Nº do Relatório</label>
+              <input required id="numeroRelatorio" name="numeroRelatorio" autocomplete="off" />
+
+              <label for="revisao">Revisão</label>
+              <input id="revisao" name="revisao" autocomplete="off" />
+
+              <label for="dataEmissao">Data de emissão</label>
+              <input required id="dataEmissao" name="dataEmissao" type="date" />
+
+              <label for="responsavelTecnico">Responsável Técnico</label>
+              <input required id="responsavelTecnico" name="responsavelTecnico" autocomplete="name" />
+
+              <label for="laboratorio">Laboratório</label>
+              <input required id="laboratorio" name="laboratorio" autocomplete="organization" />
+
+              <label for="normasReferencia">Normas de Referência</label>
+              <select id="normasReferencia" name="normasReferencia">
+                <option value="">Selecione...</option>
+                <option value="ABNT NBR 5648:2018">ABNT NBR 5648:2018</option>
+                <option value="ABNT NBR 8219">ABNT NBR 8219</option>
+                <option value="ABNT NBR NM 82">ABNT NBR NM 82</option>
+                <option value="EN 62321-3-1:2014">EN 62321-3-1:2014</option>
+                <option value="ABNT NBR NM 84">ABNT NBR NM 84</option>
+                <option value="ABNT NBR 8218">ABNT NBR 8218</option>
+                <option value="ABNT NBR 14264">ABNT NBR 14264</option>
+                <option value="ABNT NBR 7371">ABNT NBR 7371</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <!-- 2. Amostras -->
+          <fieldset>
+            <legend>2. Identificação da(s) Amostra(s)</legend>
+            <div id="amostras"></div>
+            <button type="button" class="btn btn--secondary" id="btnAddAmostra">+ Adicionar amostra</button>
+          </fieldset>
+
+          <!-- 3. Objetivo -->
+          <fieldset>
+            <legend>3. Objetivo do Ensaio</legend>
+            <textarea name="objetivo" rows="3" placeholder="Apresentar resultados obtidos nos ensaios realizados em conexões de PVC-U, visando verificar a conformidade com as normas técnicas aplicáveis."></textarea>
+          </fieldset>
+
+          <!-- 4. Métodos (interno) -->
+          <fieldset class="no-print">
+            <legend>4. Métodos e Materiais Empregados</legend>
+            <p class="hint">Cadastro interno (não sai no relatório). Preencha e clique em <strong>Incluir</strong>. Use <strong>Alterar</strong> ou <strong>Excluir</strong> nas linhas.</p>
+
+            <div class="grid">
+              <label for="ensaioRealizado">Ensaio Realizado</label>
+              <select id="ensaioRealizado">
+                <option value="">Selecione...</option>
+                <option value="phi">Pressão Hidrostática (PHI)</option>
+                <option value="junta">Pressão Hidrostática (Junta Elástica)</option>
+                <option value="vácuo">Vácuo</option>
+                <option value="dimensional">Dimensional</option>
+                <option value="marcações">Marcações</option>
+                <option value="achatamento">Achatamento</option>
+                <option value="calor">Comportamento ao calor</option>
+              </select>
+
+              <label for="amostrasSelect">Amostras</label>
+              <select id="amostrasSelect">
+                <option value="">Selecione...</option>
+                <option value="08">08</option>
+                <option value="32">32</option>
+              </select>
+
+              <label for="metodo">Método</label>
+              <select id="metodo">
+                <option value="">Selecione...</option>
+                <option value="0,5">0,5 Kgf/cm² × 15 min</option>
+                <option value="2">2 Kgf/cm² × 15 min</option>
+                <option value="-0,3">-0,3 Bar × 15 min</option>
+                <option value="gabarito">Gabarito</option>
+                <option value="visual">Visual</option>
+                <option value="deflexao">Deflexão de (X) 30%</option>
+                <option value="150">150º ± 2º × 30 min</option>
+              </select>
+
+              <label for="resultado">Resultado</label>
+              <select id="resultado">
+                <option value="">Selecione...</option>
+                <option value="aprovado">Aprovado</option>
+                <option value="reprovado">Reprovado</option>
+              </select>
+            </div>
+
+            <div class="inline" style="gap:8px;">
+              <button type="button" id="btnAddMetodo" class="btn btn--secondary">Incluir</button>
+              <button type="button" id="btnLimparMetodo" class="btn btn--secondary">Limpar</button>
+            </div>
+          </fieldset>
+
+          <!-- 5. Resultados -->
+          <fieldset>
+            <legend>5. Resultados dos Ensaios</legend>
+            <div class="tabela-wrap">
+              <table class="tabela" id="tblResultados">
+                <caption class="sr-only">Tabela de resultados dos ensaios</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Ensaio</th>
+                    <th scope="col">Resultado obtido</th>
+                    <th scope="col">Requisito normativo</th>
+                    <th scope="col">Conformidade</th>
+                    <th scope="col" aria-label="Ações"></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <button type="button" class="btn btn--secondary" id="btnAddResultado">+ Adicionar resultado</button>
+          </fieldset>
+
+          <!-- 6. Discussão -->
+          <fieldset>
+            <legend>6. Discussão dos Resultados</legend>
+            <textarea name="discussao" rows="4" placeholder="Análise comparativa entre os resultados obtidos e os critérios das normas de referência."></textarea>
+          </fieldset>
+
+          <!-- 7. Conclusão -->
+          <fieldset>
+            <legend>7. Conclusão</legend>
+            <div class="grid">
+              <label class="inline"><input type="radio" name="statusConclusao" value="Conforme" checked />Conforme</label>
+              <label class="inline"><input type="radio" name="statusConclusao" value="Não conforme" />Não conforme</label>
+            </div>
+            <textarea name="conclusaoObs" rows="3" placeholder="Observações complementares e referências à norma."></textarea>
+          </fieldset>
+
+          <!-- 8. Anexos -->
+          <fieldset>
+            <legend>8. Anexos</legend>
+            <div class="grid">
+              <label for="anexosCertificados">Certificados de calibração (URLs; separe por “;”)</label>
+              <input id="anexosCertificados" name="anexosCertificados" placeholder="https://...; https://..." inputmode="url" />
+
+              <label for="anexosPlanilhas">Planilhas/Gráficos (URLs; separe por “;”)</label>
+              <input id="anexosPlanilhas" name="anexosPlanilhas" placeholder="https://...; https://..." inputmode="url" />
+
+              <label for="anexosFotos">Fotos das amostras (URLs; separe por “;”)</label>
+              <input id="anexosFotos" name="anexosFotos" placeholder="https://...; https://..." inputmode="url" />
+            </div>
+          </fieldset>
+
+          <!-- 9. Imagens -->
+          <fieldset>
+            <legend>9. Imagens</legend>
+            <div id="imagens"></div>
+            <button type="button" class="btn btn--secondary" id="btnAddImagem">+ Adicionar imagem</button>
+            <p class="hint">Cole uma URL de imagem ou selecione um arquivo. Inclua legenda e texto alternativo.</p>
+          </fieldset>
+
+          <!-- 10. Tabelas adicionais -->
+          <fieldset>
+            <legend>10. Tabelas adicionais</legend>
+            <div id="tabelasExtras"></div>
+            <button type="button" class="btn btn--secondary" id="btnAddTabela">+ Adicionar tabela</button>
+          </fieldset>
+
+          <input type="hidden" name="id" />
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape" role="contentinfo">
+    <div class="container">
+      <small>© <span id="ano"></span> Shiva Plásticos — Relatórios digitais.</small>
+    </div>
+  </footer>
+
+  <script>
+    // acessibilidade: toggle da barra lateral para telas pequenas
+    document.addEventListener('click', (e) => {
+      if (e.target && e.target.id === 'btnToggleAside') {
+        document.body.classList.toggle('aside-collapsed');
+        const btn = document.getElementById('btnToggleAside');
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+      }
+    });
+  </script>
+  <script src="script.js" defer></script>
+</body>
+</html>
