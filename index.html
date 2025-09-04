@@ -98,13 +98,45 @@
               <input id="revisao" name="revisao" autocomplete="off" />
 
               <label for="dataEmissao">Data de emissão</label>
-              <input required id="dataEmissao" name="dataEmissao" type="date" />
+              <input required id="dataEmissao" name="dataEmissao" type="date" lang="pt-BR" />
 
-              <label for="responsavelTecnico">Responsável Técnico</label>
-              <input required id="responsavelTecnico" name="responsavelTecnico" autocomplete="name" />
+             <!-- <label for="responsavelTecnico">Responsável Técnico</label>
+              <input required id="responsavelTecnico" name="responsavelTecnico" autocomplete="name" />-->
 
               <label for="laboratorio">Laboratório</label>
               <input required id="laboratorio" name="laboratorio" autocomplete="organization" />
+
+              !-- Container geral -->
+<div style="margin-top:40px; display:flex; justify-content:space-around; text-align:center;">
+
+  <!-- Versão impressa -->
+  <div class="versao-impressa">
+    <p>____________________________________</p>
+    <p>Responsável pelo Teste</p>
+  </div>
+
+  <div class="versao-impressa">
+    <p>____________________________________</p>
+    <p>Responsável pela Verificação</p>
+  </div>
+
+  <!-- Versão digital -->
+  <div class="versao-digital" style="display:none;">
+    <div>
+      <label for="responsavelTeste">Responsável pelo Teste</label><br>
+      <input type="text" id="responsavelTeste" name="responsavelTeste" 
+             style="border:none; border-bottom:1px solid #000; text-align:center; width:250px;" 
+             placeholder="Digite o nome ou assine aqui">
+      </div>
+
+     <div>
+      <label for="responsavelVerificacao">Responsável pela Verificação</label><br>
+      <input type="text" id="responsavelVerificacao" name="responsavelVerificacao" 
+             style="border:none; border-bottom:1px solid #000; text-align:center; width:250px;" 
+             placeholder="Digite o nome ou assine aqui">
+    </div>
+  </div>
+</div>
 
               <label for="normasReferencia" class="full">Normas de Referência</label>
               <select id="normasReferencia" name="normasReferencia">
@@ -117,6 +149,14 @@
                 <option value="ABNT NBR 8218">ABNT NBR 8218</option>
                 <option value="ABNT NBR 14264">ABNT NBR 14264</option>
                 <option value="ABNT NBR 7371">ABNT NBR 7371</option>
+                <option value="ISO 13259:2020 Condição B: com deflexão diametral.">ISO 13259:2020 Condição B: Com deflexão diametral.</option>
+                <option value="ISO 13259:2020 Condição B: com deflexão diametral.">ISO 13259:2020 Condição C: Com deflexão angular.</option>
+                <option value="ISO 3260: 2010 Método A: agua quente e fria.">ISO 3260: 2010 Método A: Água quente e fria.</option>
+                <option value="ISO 3260: 2010 Método B: agua quente e fria.">ISO 3260: 2010 Método B: Água quente e fria.</option>
+                <option value="NBR 9822">NBR 9822</option>
+                <option value="NBR 7231">NBR 7231</option>
+                <option value="NBR 6483">NBR 6483</option>
+                <option value="NBR 21138">NBR 21138</option>
               </select>
             </div>
           </fieldset>
@@ -150,8 +190,26 @@
               <label for="amostrasSelect">Amostras</label>
               <select id="amostrasSelect">
                 <option value="">Selecione...</option>
+                <option value="01">08</option>
+                <option value="02">08</option>
+                <option value="03">08</option>
+                <option value="04">08</option>
+                <option value="05">08</option>
+                <option value="06">08</option>
+                <option value="07">08</option>
                 <option value="08">08</option>
+                <option value="09">08</option>
+                <option value="10">08</option>
+                <option value="11">08</option>
+                <option value="12">08</option>
+                <option value="13">08</option>
+                <option value="14">08</option>
+                <option value="15">08</option>
+                <option value="20">20</option>
                 <option value="32">32</option>
+                <option value="50">50</option>
+                <option value="80">80</option>
+                <option value="125">125</option>
               </select>
 
               <label for="metodo">Método</label>
@@ -227,6 +285,18 @@
       </section>
     </div>
   </main>
+  <script>
+  // Troque "impressa" por "digital" para alternar a exibição
+  const modo = "impressa"; // ou "digital"
+
+  if (modo === "impressa") {
+    document.querySelectorAll(".versao-digital").forEach(el => el.style.display = "none");
+    document.querySelectorAll(".versao-impressa").forEach(el => el.style.display = "block");
+  } else {
+    document.querySelectorAll(".versao-impressa").forEach(el => el.style.display = "none");
+    document.querySelectorAll(".versao-digital").forEach(el => el.style.display = "flex");
+  }
+</script>
 
   <footer class="rodape" role="contentinfo">
     <div class="container">
