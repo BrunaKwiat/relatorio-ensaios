@@ -641,7 +641,7 @@ function getImageFormatFromDataURL(dataUrl) {
 }
 async function getLogoDataURL() {
   const logoEl = document.querySelector('.brand img');
-  const src = logoEl?.src || 'Shiva.png'; // fallback
+  const src = logoEl?.src || 'shiva.png'; // fallback
   try { return await loadImageAsDataURL(src); } catch { return null; }
 }
 
