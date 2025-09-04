@@ -106,38 +106,6 @@
               <label for="laboratorio">Laboratório</label>
               <input required id="laboratorio" name="laboratorio" autocomplete="organization" />
 
-              !-- Container geral -->
-<div style="margin-top:40px; display:flex; justify-content:space-around; text-align:center;">
-
-  <!-- Versão impressa -->
-  <div class="versao-impressa">
-    <p>____________________________________</p>
-    <p>Responsável pelo Teste</p>
-  </div>
-
-  <div class="versao-impressa">
-    <p>____________________________________</p>
-    <p>Responsável pela Verificação</p>
-  </div>
-
-  <!-- Versão digital -->
-  <div class="versao-digital" style="display:none;">
-    <div>
-      <label for="responsavelTeste">Responsável pelo Teste</label><br>
-      <input type="text" id="responsavelTeste" name="responsavelTeste" 
-             style="border:none; border-bottom:1px solid #000; text-align:center; width:250px;" 
-             placeholder="Digite o nome ou assine aqui">
-      </div>
-
-     <div>
-      <label for="responsavelVerificacao">Responsável pela Verificação</label><br>
-      <input type="text" id="responsavelVerificacao" name="responsavelVerificacao" 
-             style="border:none; border-bottom:1px solid #000; text-align:center; width:250px;" 
-             placeholder="Digite o nome ou assine aqui">
-    </div>
-  </div>
-</div>
-
               <label for="normasReferencia" class="full">Normas de Referência</label>
               <select id="normasReferencia" name="normasReferencia">
                 <option value="">Selecione...</option>
@@ -285,18 +253,7 @@
       </section>
     </div>
   </main>
-  <script>
-  // Troque "impressa" por "digital" para alternar a exibição
-  const modo = "impressa"; // ou "digital"
-
-  if (modo === "impressa") {
-    document.querySelectorAll(".versao-digital").forEach(el => el.style.display = "none");
-    document.querySelectorAll(".versao-impressa").forEach(el => el.style.display = "block");
-  } else {
-    document.querySelectorAll(".versao-impressa").forEach(el => el.style.display = "none");
-    document.querySelectorAll(".versao-digital").forEach(el => el.style.display = "flex");
-  }
-</script>
+  
 
   <footer class="rodape" role="contentinfo">
     <div class="container">
