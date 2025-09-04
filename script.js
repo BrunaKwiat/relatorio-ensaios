@@ -287,7 +287,11 @@ function coletarForm() {
     fornecedorFabricante: f.fornecedorFabricante?.value.trim() || "",
     interessado: f.interessado?.value.trim() || "",
     revisao: f.revisao?.value.trim() || "",
-    dataEmissao: f.dataEmissao?.value || "",
+    if (f.dataEmissao){ 
+  f.dataEmissao.value = r.dataEmissao 
+    ? new Date(r.dataEmissao).toLocaleDateString("pt-BR", { timeZone: "UTC" })
+    : "";
+    }
     responsavelTecnico: f.responsavelTecnico?.value.trim() || "",
     laboratorio: f.laboratorio?.value.trim() || "",
     normasReferencia: $("#normasReferencia")?.value || "",
