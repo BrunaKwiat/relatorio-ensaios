@@ -725,11 +725,11 @@ async function gerarPDF(opts = {}) {
       doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(THEME.ink);
       const titleX = MARGIN_X + logoDims.w + 12;
       const titleY = Math.max(y + 8, y - 20 + logoDims.h * 0.6);
-      doc.text("Relatório de Ensaio – PVC-U", titleX, titleY);
+      doc.text("Relatório de Relatório de Inspeção", titleX, titleY);
       headerBottomY = Math.max(y - 20 + logoDims.h, titleY + 4);
     } else {
       doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(THEME.ink);
-      doc.text("Relatório de Ensaio – PVC-U", MARGIN_X, y);
+      doc.text("Relatório de Inspeção", MARGIN_X, y);
       headerBottomY = y + 10;
     }
     doc.setDrawColor(190);
