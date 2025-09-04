@@ -41,6 +41,8 @@
   --container: 1360px;
   --aside: 360px;
   --gap: 24px;
+
+  --logo-size: 100px;
 }
 
 *,
@@ -132,12 +134,13 @@ a:hover {
   gap: 12px
 }
 
-.brand img {
-  width: 75px;
-  height: 75px;
+.brand img{
+  width: var(--logo-size);
+  height: var(--logo-size);
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .28))
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.28));
 }
+
 
 .brand-text {
   display: flex;
@@ -404,7 +407,7 @@ textarea:hover {
 
 
 /* Espaço acima do botão Adicionar Amostra */
-#amostras + #btnAddAmostra {
+#amostras+#btnAddAmostra {
   margin-top: 14px;
   display: inline-flex;
   align-self: start;
@@ -561,91 +564,111 @@ select {
     box-shadow: none
   }
 
-    .tabela thead th {
+  .tabela thead th {
     background: #eee !important;
     color: #000 !important
   }
 }
+
 /* ===== 1) Corrige campo que "sai" da margem ===== */
-fieldset{ padding:24px }                 /* dá mais respiro interno */
-.grid > *{ min-width:0 }                  /* evita overflow de inputs longos */
-input:hover, select:hover, textarea:hover{ 
-  transform:none                          /* não desloca 1px ao passar o mouse */
+fieldset {
+  padding: 24px
 }
+
+/* dá mais respiro interno */
+.grid>* {
+  min-width: 0
+}
+
+/* evita overflow de inputs longos */
+input:hover,
+select:hover,
+textarea:hover {
+  transform: none
+    /* não desloca 1px ao passar o mouse */
+}
+
 /* Focus confortável sem “vazar” a borda do card */
-input:focus-visible, select:focus-visible, textarea:focus-visible{
-  outline:2px solid rgba(28,91,142,.28);
-  outline-offset:2px;
-  box-shadow:none;
-  border-color:var(--navy-700);
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(28, 91, 142, .28);
+  outline-offset: 2px;
+  box-shadow: none;
+  border-color: var(--navy-700);
 }
 
-/* ===== 2) Espaço extra no botão “+ Adicionar amostra” ===== */
-#amostras + #btnAddAmostra{
-  margin-top:18px;
-  display:inline-flex;
-  align-self:start;
+
+#amostras+#btnAddAmostra {
+  margin-top: 18px;
+  display: inline-flex;
+  align-self: start;
 }
 
-/* ===== 3) Cartões da lista de relatórios – borda sombreada ===== */
-#listaRelatorios{
-  gap:10px;
+#listaRelatorios {
+  gap: 10px;
 }
-#listaRelatorios li{
-  flex-direction:column;
-  align-items:stretch;
-  gap:6px;
-  border-radius:14px;
-  background:#fff;
-  /* “borda sombreada”: borda + leve sombra interna */
+
+#listaRelatorios li {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  border-radius: 14px;
+  background: #fff;
   box-shadow:
-    inset 0 0 0 1px rgba(28,91,142,.08),
-    0 8px 22px rgba(14,53,84,.10);
-  border:1px solid var(--border);
-}
-#listaRelatorios li strong{
-  font-weight:700;
-  color:var(--ink);
-}
-#listaRelatorios li .meta{
-  font-size:.82rem;
-  color:var(--muted);
+    inset 0 0 0 1px rgba(28, 91, 142, .08),
+    0 8px 22px rgba(14, 53, 84, .10);
+  border: 1px solid var(--border);
 }
 
-/* ===== 4) Botões “Abrir / Apagar” em estilo pílula com borda ===== */
-#listaRelatorios li .row-actions{
-  display:flex;
-  gap:8px;
-  justify-content:flex-end;
+#listaRelatorios li strong {
+  font-weight: 700;
+  color: var(--ink);
 }
-.btn-mini{
-  appearance:none;
-  border:1px solid var(--border);
-  background:#fff;
-  color:var(--navy-900);
-  font-weight:600;
-  font-size:.82rem;
-  padding:6px 12px;
-  line-height:1;
-  border-radius:999px;               /* pílula */
-  transition:.18s ease;
-  box-shadow:0 1px 0 rgba(14,53,84,.05);
+
+#listaRelatorios li .meta {
+  font-size: .82rem;
+  color: var(--muted);
 }
-.btn-mini:hover{
-  background:#f6f9ff;
-  border-color:#c9d6e6;
-  transform:translateY(-1px);
+
+#listaRelatorios li .row-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
 }
-.btn-mini:focus-visible{
-  outline:none;
-  box-shadow:0 0 0 3px rgba(28,91,142,.18);
+
+.btn-mini {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--navy-900);
+  font-weight: 600;
+  font-size: .82rem;
+  padding: 6px 12px;
+  line-height: 1;
+  border-radius: 999px;
+  transition: .18s ease;
+  box-shadow: 0 1px 0 rgba(14, 53, 84, .05);
 }
-.btn-mini.danger{
-  color:var(--red-600);
-  border-color:#f1c6c9;
-  background:linear-gradient(#fff,#fff);
+
+.btn-mini:hover {
+  background: #f6f9ff;
+  border-color: #c9d6e6;
+  transform: translateY(-1px);
 }
-.btn-mini.danger:hover{
-  background:#fff6f7;
-  border-color:#e9a7ad;
+
+.btn-mini:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 91, 142, .18);
+}
+
+.btn-mini.danger {
+  color: var(--red-600);
+  border-color: #f1c6c9;
+  background: linear-gradient(#fff, #fff);
+}
+
+.btn-mini.danger:hover {
+  background: #fff6f7;
+  border-color: #e9a7ad;
 }
