@@ -672,11 +672,18 @@ textarea:focus-visible {
   background: #fff6f7;
   border-color: #e9a7ad;
 }
-/* Corrige imagens dentro da tabela de Resultados dos Ensaios */
-#tblResultados img {
-  max-width: 120px;   /* limita a largura (ajuste conforme seu layout) */
-  height: auto;       /* mantém proporção */
-  display: block;     /* impede que fique "inline" com texto */
-  margin: 6px auto;   /* centraliza dentro da célula */
-  object-fit: contain; /* evita distorção */
+/* Imagens dentro da tabela de Resultados dos Ensaios */
+#tblResultados td {
+  vertical-align: middle;   /* garante alinhamento central */
+  text-align: center;       /* centraliza o conteúdo */
 }
+
+#tblResultados img {
+  max-width: 100%;          /* nunca ultrapassa a largura da célula */
+  max-height: 180px;        /* <-- limite de altura para não "invadir" o texto */
+  height: auto;             /* mantém proporção */
+  display: block;           /* força a quebra em bloco */
+  margin: 8px auto;         /* espaço em volta */
+  object-fit: contain;      /* garante que a imagem se adapte */
+}
+
