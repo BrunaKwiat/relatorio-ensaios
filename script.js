@@ -987,11 +987,8 @@ async function gerarPDF(opts = {}) {
       doc.setFont("helvetica", "bold"); doc.setTextColor(THEME.ink);
       ensureSpace(16); doc.text(`Amostra ${i + 1}`, MARGIN_X, y); y += 8; doc.setFont("helvetica", "normal");
       twoColFields([
-        ["Descrição", a.descricao],
-        ["Tipo", a.tipo],
-        ["Dimensão nominal", a.dimensao],
-        ["Cor", a.cor],
-        ["Processo", a.processo],
+        ["Descrição da Amostra", a.descricao],
+        ["Material", a.material],   
         ["Marca", a.marca],
         ["Lote/Nº amostra", a.lote],
         ["Quantidade", a.quantidade]
