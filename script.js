@@ -386,11 +386,8 @@ function limparCamposMetodo() {
    ========================= */
 function amostraCard(a = {}, idx = 0) {
   const d = el("div", { className: "grid" }); d.dataset.amostra = idx;
-  d.innerHTML = `<label>Descrição <input class="a-descricao" value="${a.descricao || ""}" required></label>
-  <label>Tipo <input class="a-tipo" value="${a.tipo || ""}"></label>
-  <label>Dimensão nominal <input class="a-dimensao" value="${a.dimensao || ""}"></label>
-  <label>Cor <input class="a-cor" value="${a.cor || ""}"></label>
-  <label>Processo <input class="a-processo" value="${a.processo || ""}"></label>
+  d.innerHTML = `<label>Descrição de Amostra <input class="a-descricao" value="${a.descricao || ""}" required></label>
+  <label>Material <input class="a-tipo" value="${a.tipo || ""}"></label>  
   <label>Marca <input class="a-marca" value="${a.marca || ""}"></label>
   <label>Lote/Nº amostra <input class="a-lote" value="${a.lote || ""}"></label>
   <label>Qtd. <input class="a-quantidade" value="${a.quantidade || ""}" type="number" min="0"></label>
