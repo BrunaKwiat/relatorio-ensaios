@@ -672,3 +672,11 @@ textarea:focus-visible {
   background: #fff6f7;
   border-color: #e9a7ad;
 }
+/* Corrige imagens dentro da tabela de Resultados dos Ensaios */
+#tblResultados img {
+  max-width: 120px;   /* limita a largura (ajuste conforme seu layout) */
+  height: auto;       /* mantém proporção */
+  display: block;     /* impede que fique "inline" com texto */
+  margin: 6px auto;   /* centraliza dentro da célula */
+  object-fit: contain; /* evita distorção */
+}
