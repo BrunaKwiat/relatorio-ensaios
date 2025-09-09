@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="claro">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Relatório de Inspeção</title>
+  <meta name="color-scheme" content="light only" />
+  <meta name="theme-color" content="#0E3554" />
+
+  <!-- CSS principal (mantém separado) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- jsPDF (para gerar PDF “texto”) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <!-- Script principal (mantém separado) -->
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+  <a class="sr-only sr-only-focusable" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topbar" role="banner">
+    <div class="container topbar__inner">
+      <div class="brand" aria-label="Shiva Conexões">
+        <img src="shiva.png" alt="Shiva Conexões" />
+        <div class="brand-text">
+          <span class="brand-title">Relatório de Inspeção</span>
+          <span class="brand-sub">Laudo Interno</span>
+        </div>
+      </div>
+
+      <div class="topbar__right">
+        <nav class="actions" role="group" aria-label="Ações do relatório">
+          <div class="btn-group">
+            <button id="btnSalvar" class="btn btn--primary" type="button" title="Salvar no navegador">Salvar</button>
+          </div>
+
+          <div class="btn-group">
+            <button id="btnPDF" class="btn btn--secondary" type="button" title="Gerar PDF (texto)">PDF</button>
+            <button id="btnImprimir" class="btn btn--secondary" type="button" title="Imprimir página">Imprimir</button>
+          </div>
+
+          <!-- Botão para abrir o seletor de temas -->
+          <div class="btn-group">
+            <button id="btnTemas" class="btn btn--secondary" type="button" title="Escolher tema">Temas</button>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout" id="app" role="main">
+    <div class="container">
+      <div id="ariaLive" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+      <aside class="lista-relatorios" aria-label="Relatórios salvos">
+        <div class="aside-head">
+          <h2>Relatórios</h2>
+          <div class="search-group">
+            <label for="filtroLista" class="sr-only">Buscar em relatórios salvos</label>
+            <input id="filtroLista" placeholder="Buscar..." type="search" autocomplete="off" />
+            <button type="button" id="btnBuscarRelatorio" class="btn btn--secondary"
+              title="Buscar relatório">Buscar</button>
+          </div>
+          <div class="aside-buttons"></div>
+        </div>
+        <ul id="listaRelatorios" aria-live="polite"></ul>
+      </aside>
+
+      <section class="conteudo" id="conteudo" tabindex="-1">
+        <form id="formRelatorio" novalidate>
+          <fieldset>
+            <legend>Identificação do Relatório</legend>
+
+            <div class="grid">
+              <!-- ...dentro de <fieldset> Identificação do Relatório ... -->
+
+<label for="numeroRelatorio">Nº do Relatório</label>
+<input required id="numeroRelatorio" name="numeroRelatorio" autocomplete="off" inputmode="numeric" />
+
+<label for="fornecedorFabricante">Fornecedor/Fabricante</label>
+<input id="fornecedorFabricante" name="fornecedorFabricante" autocomplete="organization" />
+
+<label for="interessado">Interessado</label>
+<input id="interessado" name="interessado" autocomplete="name" />
+
+<!-- ===== NOVO: Empenho + Quantidade na mesma linha ===== -->
+<div class="periodo-field">
+  <div class="p-left">
+    <label for="ordemProducao">Empenho</label>
+  </div>
+  <div class="p-right">
+    <div class="periodo-inspecao">
+      <input id="ordemProducao" name="ordemProducao" autocomplete="off" inputmode="numeric" />
+      <span class="ate" aria-hidden="true">Quantidade</span>
+      <label for="quantidade" class="sr-only">Quantidade</label>
+      <input id="quantidade" name="quantidade" type="number" min="1" value="1" inputmode="numeric" />
+    </div>
+  </div>
+</div>
+<!-- ===== /NOVO ===== -->
+
+<!-- mantém o seu bloco de Período de Inspeção + Laboratório -->
+<div class="periodo-field">
+  <div class="p-left">
+    <label for="dataInicio">Período de Inspeção</label>
+  </div>
+  <div class="p-right">
+    <div class="periodo-inspecao">
+      <input required id="dataInicio" name="dataInicio" type="date" lang="pt-BR" />
+      <span class="ate" aria-hidden="true">até</span>
+      <input required id="dataFim" name="dataFim" type="date" lang="pt-BR" />
+    </div>
+  </div>
+
+  <div class="p-left">
+    <label for="laboratorio">Laboratório</label>
+  </div>
+  <div class="p-right">
+    <input required id="laboratorio" name="laboratorio" autocomplete="organization" />
+  </div>
+</div>
+
+<label for="normasReferencia">Norma Técnica</label>
+
+<select id="normasReferencia" name="normasReferencia">
+  <!-- ...suas opções... -->
+
+                <option value="">Selecione...</option>
+                <option value="ABNT NBR 5648:2018">ABNT NBR 5648:2018</option>
+                <option value="ABNT NBR 8219">ABNT NBR 8219</option>
+                <option value="ABNT NBR NM 82">ABNT NBR NM 82</option>
+                <option value="EN 62321-3-1:2014">EN 62321-3-1:2014</option>
+                <option value="ABNT NBR NM 84">ABNT NBR NM 84</option>
+                <option value="ABNT NBR 8218">ABNT NBR 8218</option>
+                <option value="ABNT NBR 14264">ABNT NBR 14264</option>
+                <option value="ABNT NBR 7371">ABNT NBR 7371</option>
+                <option value="ISO 13259:2020 – Condição B (deflexão diametral)">ISO 13259:2020 Condição B: Com deflexão
+                  diametral.</option>
+                <option value="ISO 13259:2020 – Condição C (deflexão angular)">ISO 13259:2020 Condição C: Com deflexão
+                  angular.</option>
+                <option value="ISO 3260:2010 – Método A (água quente e fria)">ISO 3260: 2010 Método A: Água quente e
+                  fria.</option>
+                <option value="ISO 3260:2010 – Método B (água quente e fria)">ISO 3260: 2010 Método B: Água quente e
+                  fria.</option>
+                <option value="NBR 9822">NBR 9822</option>
+                <option value="NBR 7231">NBR 7231</option>
+                <option value="NBR 6483">NBR 6483</option>
+                <option value="NBR 21138">NBR 21138</option>
+                <option value="5647">5647</option>
+                <option value="5648">5648</option>
+                <option value="5688">5688</option>
+                <option value="7362">7362</option>
+                <option value="7665">7665</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Identificação da(s) Amostra(s)</legend>
+            <div id="amostras"></div>
+            <button type="button" class="btn btn--secondary" id="btnAddAmostra">+ Adicionar amostra</button>
+          </fieldset>
+
+          <fieldset class="no-print">
+            <legend>Métodos e Materiais Empregados</legend>
+            <p class="hint">
+              Cadastro interno (não sai no relatório). Preencha e clique em <strong>Incluir</strong>.
+              Use <strong>Alterar</strong> ou <strong>Excluir</strong> nas linhas.
+            </p>
+
+            <div class="grid">
+              <label for="ensaioRealizado">Ensaio realizado</label>
+              <select id="ensaioRealizado">
+                <option value="">Selecione...</option>
+                <option value="phi">Pressão Hidrostática (PHI)</option>
+                <option value="junta">Pressão Hidrostática (Junta Elástica)</option>
+                <option value="vácuo">Vácuo</option>
+                <option value="dimensional">Dimensional</option>
+                <option value="marcações">Marcações</option>
+                <option value="achatamento">Achatamento</option>
+                <option value="calor">Comportamento ao calor</option>
+                <option value="impacto">Resistência ao impacto</option>
+                <option value="estanquiedade-anel">Estanquiedade da junta com anel de vedação elastomérico</option>
+                <option value="flexibilidade">Resistência mecânica ou flexibilidade</option>
+              </select>
+
+              <label for="amostrasSelect">Amostras</label>
+              <select id="amostrasSelect">
+                <option value="">Selecione...</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="32">32</option>
+                <option value="50">50</option>
+                <option value="80">80</option>
+                <option value="125">125</option>
+              </select>
+
+              <label for="metodo">Parâmetro do Ensaio</label>
+              <select id="metodo">
+                <option value="">Selecione...</option>
+                <option value="0_5">0,5 kgf/cm² × 15 min</option>
+                <option value="2_0">2 kgf/cm² × 15 min</option>
+                <option value="vácuo_-0_3">-0,3 bar × 15 min</option>
+                <option value="gabarito">Gabarito</option>
+                <option value="visual">Visual</option>
+                <option value="deflexao_30">Deflexão de (X) 30%</option>
+                <option value="150_30">150º ± 2º × 30 min</option>
+                <option value="deflexao_ponta_10">Deflexão da ponta ≥ 10%</option>
+                <option value="deflexao_bolsa_5">Deflexão da bolsa ≥ 5%</option>
+                <option value="diferenca_5">Diferença ≥ 5%</option>
+                <option value="angular_315">Deflexão Angular dn ≤ 315 mm — 2º</option>
+                <option value="angular_315_630">Deflexão Angular 315 mm &lt; dn ≤ 630 mm — 1,5º</option>
+                <option value="angular_630">Deflexão Angular dn &gt; 630 mm — 1º</option>
+              </select>
+
+              <label for="resultado">Resultado</label>
+              <select id="resultado">
+                <option value="">Selecione...</option>
+                <option value="aprovado">Aprovado</option>
+                <option value="reprovado">Reprovado</option>
+              </select>
+            </div>
+
+            <div class="inline">
+              <button type="button" id="btnAddMetodo" class="btn btn--secondary">Incluir</button>
+              <button type="button" id="btnLimparMetodo" class="btn btn--secondary">Limpar</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Resultados dos Ensaios</legend>
+            <div class="tabela-wrap">
+              <table class="tabela" id="tblResultados">
+                <caption class="sr-only">Tabela de resultados dos ensaios</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Ensaio</th>
+                    <th scope="col">Resultado obtido</th>
+                    <th scope="col">Requisito normativo</th>
+                    <th scope="col">Conformidade</th>
+                    <th scope="col" aria-label="Ações"></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <button type="button" class="btn btn--secondary" id="btnAddResultado">+ Adicionar resultado</button>
+
+            <div id="imagens"></div>
+            <button type="button" class="btn btn--secondary" id="btnAddImagem">+ Adicionar imagem</button>
+            <p class="hint">Cole uma URL de imagem ou selecione um arquivo. Inclua legenda e texto alternativo.</p>
+
+            <div class="container" id="anexos">
+              <h6>Adicionar Anexo</h6>
+              <p>Preencha as informações abaixo, os campos em negrito são obrigatórios.</p>
+
+              <div class="form-group">
+                <label for="descricao"><b>Descrição</b></label>
+                <input type="text" id="descricao" placeholder="Descrição" autocomplete="off" />
+              </div>
+
+              <div class="form-group">
+                <label for="arquivo"><b>Arquivo</b></label>
+                <input type="file" id="arquivo" />
+              </div>
+
+              <button type="button" id="btnNovoAnexo" class="btn btn--secondary">+ Novo</button>
+            </div>
+          </fieldset>
+
+          <input type="hidden" name="id" />
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape" role="contentinfo">
+    <div class="container">
+      <small>© <span id="ano"></span> Shiva Conexões — Relatórios digitais.</small>
+    </div>
+  </footer>
+
+  <!-- Dialog de seleção de temas (sem CSS/JS embutidos) -->
+  <dialog id="dlgTemas" aria-labelledby="dlgTemasTitle" aria-modal="true">
+    <form id="formTemas" method="dialog">
+      <header class="dlg-head">
+        <h2 id="dlgTemasTitle">Escolher tema</h2>
+        <button type="button" id="btnTemaFechar" aria-label="Fechar">×</button>
+      </header>
+
+      <fieldset>
+        <legend class="sr-only">Opções de tema</legend>
+        <div class="tema-opcao">
+          <input type="radio" id="temaClaro" name="tema" value="claro" checked />
+          <label for="temaClaro">Claro</label>
+        </div>
+        <div class="tema-opcao">
+          <input type="radio" id="temaEscuro" name="tema" value="escuro" />
+          <label for="temaEscuro">Escuro</label>
+        </div>
+        <div class="tema-opcao">
+          <input type="radio" id="temaMarinho" name="tema" value="marinho" />
+          <label for="temaMarinho">Marinho</label>
+        </div>
+        <div class="tema-opcao">
+          <input type="radio" id="temaSepia" name="tema" value="sepia" />
+          <label for="temaSepia">Sépia</label>
+        </div>
+      </fieldset>
+
+      <footer class="dlg-actions">
+        <button type="button" id="btnTemaAplicar" class="btn btn--primary">Aplicar</button>
+        <button type="button" id="btnTemaCancelar" class="btn btn--secondary">Cancelar</button>
+      </footer>
+    </form>
+  </dialog>
+</body>
+
+
+</html>
